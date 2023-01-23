@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:data="clr-namespace:MonkeyMadness.Data;assembly=MonkeyMadness"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="800"
+             x:Class="MonkeyMadness.Avalonia.Presentation.Views.MainView">
+    
+  <Grid ColumnDefinitions="*,*" RowDefinitions="*,Auto">
+    <ScrollViewer Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+      <ItemsControl Items="{Binding Monkeys}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="data:Monkey">
+            <Button Classes="card-view"
+                    Command="{Binding DataContext.GoToDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                    CommandParameter="{Binding .}"
+                    HorizontalAlignment="Stretch"
+                    Margin="10">
+              <Grid ColumnDefinitions="125,*">
+                <Image Source="{Binding Image}" Width="125" Height="125"/>
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                  <TextBlock Classes="h1" Text="{Binding Name}"/>
+                  <TextBlock Classes="h3" Text="{Binding Location}"/>
+                </StackPanel>
+              </Grid>
+            </Button>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+
+    <Button Grid.Row="1" Grid.Column="0"
+            Classes="outline"
+            Command="{Binding GetMonkeysCommand}"
+            IsEnabled="{Binding IsNotBusy}"
+            Content="Get Monkeys"
+            HorizontalAlignment="Stretch"
+            Margin="8"/>
+    <Button Grid.Row="1" Grid.Column="1"
+            Classes="outline"
+            Command="{Binding GetClosestMonkeyCommand}"
+            IsEnabled="{Binding IsNotBusy}"
+            Content="Find Closest"
+            HorizontalAlignment="Stretch"
+            Margin="8"/>
+    <!--
+    <ActivityIndicator Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalOptions="Fill" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource Primary}" VerticalOptions="Center" />
+    -->
+  </Grid>
+
+</UserControl>

@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="800"
+             x:Class="MonkeyMadness.Avalonia.Presentation.Views.MonkeyDetailsView">
+
+  <ScrollViewer>
+    <Grid RowDefinitions="Auto,Auto,*">
+      <Border Grid.RowSpan="2" Background="Black"/>
+
+      <Border Grid.Row="0" BorderBrush="White" BorderThickness="6" CornerRadius="80" Height="160" Width="160" Margin="0,20,0,5">
+        <!--
+        <Image Aspect="AspectFill"
+                HeightRequest="160"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Source="{Binding Monkey.Image}"
+                WidthRequest="160"/>
+        -->
+      </Border>
+      <TextBlock Grid.Row="1" Classes="h1" HorizontalAlignment="Center" Foreground="White" Text="{Binding Monkey.Name, FallbackValue=Name}" Margin="0,0,0,8"/>
+
+      <StackPanel Grid.Row="2" Spacing="10" Margin="5,10">
+        <!--
+        <Button Text="Show on Map" 
+                Command="{Binding OpenMapCommand}"
+                HorizontalOptions="Center" 
+                WidthRequest="200" 
+                Margin="8"
+                Style="{StaticResource ButtonOutline}"/>
+        -->
+
+        <TextBlock Classes="h3" Text="{Binding Monkey.Details}" TextWrapping="Wrap"/>
+        <TextBlock Classes="h4" Text="{Binding Monkey.Location, StringFormat='Location: {0}'}" TextWrapping="Wrap"/>
+        <TextBlock Classes="h4" Text="{Binding Monkey.Population, StringFormat='Population: {0}'}" TextWrapping="Wrap"/>
+      </StackPanel>
+    </Grid>
+  </ScrollViewer>
+
+</UserControl>

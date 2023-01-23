@@ -1,0 +1,57 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:Cerberus"
+             x:Class="MonkeyMadness.Avalonia.App">
+
+  <Application.Resources>
+    <Color x:Key="Primary">#037BFC</Color>
+    <Color x:Key="PrimaryDark">#0339FC</Color>
+    <Color x:Key="Accent">#00BCD4</Color>
+    <Color x:Key="LightBackground">#FAF9F8</Color>
+    <Color x:Key="DarkBackground">Black</Color>
+    <Color x:Key="CardBackground">White</Color>
+    <Color x:Key="CardBackgroundDark">#1C1C1E</Color>
+    <Color x:Key="CardBorder">#DDDDDD</Color>
+    <Color x:Key="LabelText">#1F1F1F</Color>
+    <Color x:Key="LabelTextDark">White</Color>
+  </Application.Resources>
+
+  <Application.Styles>
+    <FluentTheme Mode="Light"/>
+
+    <Style Selector="Button.card-view">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{StaticResource CardBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="10"/>
+    </Style>
+
+    <Style Selector="Button.outline">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource Primary}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Primary}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerRadius" Value="20"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Height" Value="40"/>
+    </Style>
+
+    <Style Selector="TextBlock.h1">
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
+    <Style Selector="TextBlock.h2">
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+    <Style Selector="TextBlock.h3">
+        <Setter Property="FontSize" Value="16"/>
+    </Style>
+    <Style Selector="TextBlock.h4">
+        <Setter Property="FontSize" Value="10"/>
+    </Style>
+    <Style Selector="TextBlock.h5">
+        <Setter Property="FontSize" Value="10"/>
+    </Style>
+  </Application.Styles>
+
+</Application>
