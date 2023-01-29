@@ -2,11 +2,15 @@ using System;
 using System.Threading.Tasks;
 using Cerberus.DependencyInjection;
 using Cerberus.Presentation;
+using Cerberus.Presentation.Alerting;
 using Cerberus.Presentation.Navigation;
+using Microsoft.Extensions.DependencyInjection;
 using MonkeyMadness.AcceptanceTests.Support;
 using MonkeyMadness.Constants;
 using MonkeyMadness.Data;
 using MonkeyMadness.Presentation.ViewModels;
+using MonkeyMadness.Services;
+using Moq;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -15,16 +19,21 @@ namespace MonkeyMadness.AcceptanceTests.StepDefinitions
     [Binding]
     public class NavigationStepDefinitions
     {
-        private readonly TestBootstrapper bootstrapper = new TestBootstrapper();
+        private readonly TestBootstrapper bootstrapper = TestsBootstrapper.Create<TestBootstrapper>(services =>
+        {
+            services.AddSingleton(Mock.Of<IAlertService>());
+            services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton(Mock.Of<IMonkeyService>());
+        });
         private readonly Monkey monkey = new Monkey
         {
             Name = "Baboon"
         };
 
         [Given(@"the application is started")]
-        public async Task TheApplicationIsStarted()
+        public void TheApplicationIsStarted()
         {
-            await this.bootstrapper.Run();
+            this.bootstrapper.Run();
         }
 
         [Given(@"the application is not started")]
@@ -64,10 +73,13 @@ namespace MonkeyMadness.AcceptanceTests.StepDefinitions
 
         private class TestBootstrapper : TestsBootstrapper
         {
-            protected override void OnBeforeRun()
+            public TestBootstrapper(IDependencyResolver dependencyResolver, INavigationService navigationService)
+                : base(dependencyResolver)
             {
-                this.NavigationService = this.DependencyResolver!.Resolve<NavigationService>();
+                this.NavigationService = navigationService;
             }
+
+            public INavigationService NavigationService { get; }
         }
 
         private class NavigationService : INavigationService

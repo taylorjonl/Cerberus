@@ -1,18 +1,22 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Cerberus;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MonkeyMadness.Presentation;
 
 namespace MonkeyMadness.Avalonia;
 
 public partial class App : Application
 {
-    private readonly Bootstrapper bootstrapper = new AvaloniaBootstrapper();
+    private MonkeyMadnessBootstrapper? bootstrapper;
 
     public override void Initialize()
     {
-        bootstrapper.Run();
+        var builder = Host.CreateApplicationBuilder();
+        builder.Services.AddMonkeyMadnessAvalonia();
+        var host = builder.Build();
+        this.bootstrapper = host.Services.GetRequiredService<MonkeyMadnessBootstrapper>();
 
         AvaloniaXamlLoader.Load(this);
     }
@@ -23,7 +27,7 @@ public partial class App : Application
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = bootstrapper.DependencyResolver!.Resolve<MainWindowModel>(),
+                DataContext = bootstrapper!.DependencyResolver!.Resolve<MainWindowModel>(),
             };
         }
 

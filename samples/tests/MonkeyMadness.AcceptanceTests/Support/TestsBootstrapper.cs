@@ -1,35 +1,32 @@
-﻿using System.Threading.Tasks;
-using Cerberus.Presentation.Alerting;
-using Cerberus.Presentation.Navigation;
+﻿using System;
+using Cerberus.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MonkeyMadness.Services;
-using Moq;
 
 namespace MonkeyMadness.AcceptanceTests.Support;
 
-public class TestsBootstrapper : MonkeyBootstrapper
+public class TestsBootstrapper : MonkeyMadnessBootstrapper
 {
-    private static readonly IAlertService DefaultAlertService = Mock.Of<IAlertService>();
-    private static readonly INavigationService DefaultNavigationService = Mock.Of<INavigationService>();
-    private static readonly IMonkeyService DefaultMonkeyService = Mock.Of<IMonkeyService>();
+    public TestsBootstrapper(IDependencyResolver dependencyResolver)
+        : base(dependencyResolver)
+    {
+    }
 
-    public IAlertService AlertService { get; set; } = DefaultAlertService;
-    public INavigationService NavigationService { get; set; } = DefaultNavigationService;
-    public IMonkeyService MonkeyService { get; set; } = DefaultMonkeyService;
-
-    public override async Task Run()
+    public static TBootstrapper Create<TBootstrapper>(Action<IServiceCollection>? configure = null)
+        where TBootstrapper : class
     {
         var builder = Host.CreateApplicationBuilder();
-        builder.Services.AddTransient<IAlertService>(_ => AlertService);
-        builder.Services.AddTransient<INavigationService>(_ => NavigationService);
-        builder.Services.AddTransient<IMonkeyService>(_ => DefaultMonkeyService);
-        ConfigureServices(builder.Services);
+        configure?.Invoke(builder.Services);
+        builder.Services.AddMonkeyMadness();
         var host = builder.Build();
-        Configure(host.Services);
+        var dependencyResolver = host.Services.GetRequiredService<IDependencyResolver>();
+        return dependencyResolver.Resolve<TBootstrapper>();
+    }
 
+    public override void Run()
+    {
         OnBeforeRun();
-        await base.Run();
+        base.Run();
         OnAfterRun();
     }
 
