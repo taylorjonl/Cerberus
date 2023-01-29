@@ -1,15 +1,24 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Cerberus.Presentation.Alerting;
+using Cerberus.Presentation.Navigation;
+using Microsoft.Extensions.DependencyInjection;
+using MonkeyMadness.Maui.Presentation.Alerting;
+using MonkeyMadness.Maui.Presentation.Navigation;
 using MonkeyMadness.Maui.Presentation.Views;
 
 namespace MonkeyMadness.Maui;
 
-public class MauiBootstrapper : MonkeyBootstrapper
+public static class MonkeyMadnessMauiServiceCollectionExtensions
 {
-    protected override void ConfigureViews(IServiceCollection services)
+    public static IServiceCollection AddMonkeyMadnessMaui(this IServiceCollection services)
     {
-        base.ConfigureViews(services);
+        services.AddMonkeyMadness();
+
+        services.AddSingleton<IAlertService, AlertService>();
+        services.AddSingleton<INavigationService, NavigationService>();
 
         services.AddTransient<MainView>();
         services.AddTransient<MonkeyDetailsView>();
+
+        return services;
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Cerberus.DependencyInjection;
 using Cerberus.Presentation;
 using Cerberus.Presentation.Navigation;
+using MonkeyMadness.Presentation;
 
 namespace MonkeyMadness.Avalonia.Presentation.Navigation;
 

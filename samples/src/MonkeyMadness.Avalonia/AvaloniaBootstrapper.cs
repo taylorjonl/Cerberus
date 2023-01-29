@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MonkeyMadness.Avalonia.Presentation.Alerting;
 using MonkeyMadness.Avalonia.Presentation.Navigation;
+using MonkeyMadness.Presentation;
 
 namespace MonkeyMadness.Avalonia;
 
@@ -31,5 +32,18 @@ public class AvaloniaBootstrapper : MonkeyBootstrapper
         Configure(host.Services);
 
         await base.Run();
+    }
+}
+
+public class MonkeyMadnessAvaloniaAppBuilder : MonkeyMadnessAppBuilderBase
+{
+    public override void ConfigureServices(IServiceCollection services)
+    {
+        base.ConfigureServices(services);
+
+        services.AddSingleton<IAlertService, AlertService>();
+        services.AddSingleton<INavigationService, NavigationService>();
+
+        services.AddSingleton<MainWindowModel>();
     }
 }
