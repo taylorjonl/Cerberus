@@ -1,4 +1,6 @@
 ﻿using Cerberus.DependencyInjection;
+using Cerberus.Presentation.Navigation;
+using MonkeyMadness.Presentation.ViewModels;
 
 namespace MonkeyMadness
 {
@@ -13,6 +15,8 @@ namespace MonkeyMadness
 
         public virtual void Run()
         {
+            var navigationService = this.DependencyResolver.Resolve<INavigationService>();
+            navigationService.GoToAsync<MainViewModel>();
         }
     }
 }

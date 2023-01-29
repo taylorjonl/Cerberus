@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
+using MonkeyMadness.Constants;
+using MonkeyMadness.Maui.Presentation.Views;
 
 namespace MonkeyMadness.Maui;
 
@@ -19,8 +22,12 @@ public static class MauiProgram
 
         builder.Services.AddMonkeyMadnessMaui();
 
+        // temporary
+        Routing.RegisterRoute(ViewNames.Main, typeof(MainView));
+        Routing.RegisterRoute(ViewNames.MonkeyDetails, typeof(MonkeyDetailsView));
+
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
         return builder.Build();

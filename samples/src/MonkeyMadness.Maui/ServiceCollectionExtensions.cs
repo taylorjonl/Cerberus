@@ -4,10 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using MonkeyMadness.Maui.Presentation.Alerting;
 using MonkeyMadness.Maui.Presentation.Navigation;
 using MonkeyMadness.Maui.Presentation.Views;
+using MonkeyMadness.Presentation;
 
 namespace MonkeyMadness.Maui;
 
-public static class MonkeyMadnessMauiServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddMonkeyMadnessMaui(this IServiceCollection services)
     {
@@ -18,6 +19,8 @@ public static class MonkeyMadnessMauiServiceCollectionExtensions
 
         services.AddTransient<MainView>();
         services.AddTransient<MonkeyDetailsView>();
+
+        services.AddSingleton<MainWindowModel>();
 
         return services;
     }
